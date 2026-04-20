@@ -1,0 +1,18 @@
+# Vivado / simulation
+*.log
+*.jou
+*.str
+*.wdb
+*.vcd
+*.bin
+*.pb
+*.runs/
+
+# build / temp
+*.o
+*.out
+*.exe
+
+# OS
+.DS_Store
+Thumbs.db
