@@ -2,8 +2,6 @@
 
 A parameterizable Verilog packetizer that converts a continuous input stream into framed packets with metadata, timestamps, and AXI-Stream compliant output.
 
-This project was developed as part of a software-defined radio (SDR) data pipeline for high-throughput IQ data streaming.
-
 ---
 
 ## Overview
@@ -12,7 +10,7 @@ The packetizer formats incoming samples into structured packets consisting of:
 
 * Header (metadata + timestamps)
 * Payload (stream samples)
-* AXI-Stream interface with `tvalid`, `tready`, and `tlast`
+* AXI-Stream interface (`tvalid`, `tready`, `tlast`)
 
 Each packet includes:
 
@@ -50,7 +48,7 @@ Input Stream → Packetizer → AXI Stream Output
 
 ### `packetizer_single.v`
 
-Core FSM that builds packets:
+Core FSM responsible for:
 
 * Header generation
 * Payload streaming
@@ -63,28 +61,28 @@ Core FSM that builds packets:
 
 Generates timestamps based on:
 
-* Sample rate increment
+* Sample-driven time increments
 * Optional PPS synchronization
 
 ---
 
 ### `packetizer_axi_lite_top.v`
 
-Top-level wrapper:
+Top-level integration module:
 
 * AXI-Lite configuration interface
-* Connects packetizer + timestamp generator
+* Connects packetizer and timestamp generator
 * Exposes AXI-Stream output
 
 ---
 
-## Configuration (AXI-Lite)
+## AXI-Lite Configuration
 
 | Address | Description                      |
 | ------- | -------------------------------- |
-| 0x00    | Control (enable, reset counters) |
-| 0x04    | Stream / Channel configuration   |
-| 0x08    | Status                           |
+| `0x00`  | Control (enable, clear counters) |
+| `0x04`  | Stream / channel configuration   |
+| `0x08`  | Status                           |
 
 ---
 
@@ -96,12 +94,12 @@ Testbench:
 tb/tb_packetizer_axi_lite_top.v
 ```
 
-Run simulation to observe:
+Simulation validates:
 
 * Packet framing
-* Header fields
-* Sequence increments
-* Timestamp progression
+* Header formatting
+* Sequence counter progression
+* Timestamp generation
 
 ---
 
@@ -124,17 +122,16 @@ word=21 data=0000000f last=1
 
 ## Parameters
 
-| Parameter          | Description             |
-| ------------------ | ----------------------- |
-| DATA_WIDTH         | Input/output data width |
-| SAMPLES_PER_PACKET | Payload size            |
-| FRAC_INCREMENT     | Timestamp increment     |
+| Parameter            | Description             |
+| -------------------- | ----------------------- |
+| `DATA_WIDTH`         | Input/output data width |
+| `SAMPLES_PER_PACKET` | Payload size            |
+| `FRAC_INCREMENT`     | Timestamp increment     |
 
 ---
 
 ## Applications
 
-* Software-defined radio (SDR)
 * High-throughput data streaming
 * FPGA-based packetization pipelines
 * Real-time signal processing systems
@@ -143,13 +140,13 @@ word=21 data=0000000f last=1
 
 ## Notes
 
-* Designed for integration with DMA → DDR → Linux pipelines
-* Tested using simulation-only environment
-* Fully decoupled from SDR-specific hardware for reuse
+* Designed for integration with DMA → DDR → host software pipelines
+* Validated using simulation-only environment
+* Fully decoupled from hardware-specific dependencies for reuse
 
 ---
 
 ## Author
 
-Zachary Conlan
+**Zachary Conlan**
 Electrical & Computer Engineering — UT Austin
