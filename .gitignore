@@ -1,18 +1,17 @@
-# Vivado / simulation
+# Vivado junk
+*.cache/
+*.hw/
+*.ip_user_files/
+*.sim/
+*.runs/
+*.xpr
+
+# logs
 *.log
 *.jou
 *.str
 *.wdb
 *.vcd
+
+# binaries
 *.bin
-*.pb
-*.runs/
-
-# build / temp
-*.o
-*.out
-*.exe
-
-# OS
-.DS_Store
-Thumbs.db
